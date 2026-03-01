@@ -42,3 +42,18 @@
   color: #555;
   flex-shrink: 0;
 }
+
+.post-card {
+  width: 240px;     /* cố định chiều rộng */
+  height: 340px;    /* cố định chiều cao */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
