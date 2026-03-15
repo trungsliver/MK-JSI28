@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3</title>
+    <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Firestore Demo</h1>
+        <p class="subtitle">Vi du don gian: them va hien thi ghi chu realtime.</p>
+
+        <form id="note-form" class="card">
+            <label for="note-input">Noi dung ghi chu</label>
+            <div class="row">
+                <input id="note-input" type="text" placeholder="Nhap mot ghi chu..." required maxlength="120">
+                <button type="submit">Them</button>
+            </div>
+        </form>
+
+        <section class="card">
+            <h2>Danh sach ghi chu</h2>
+            <ul id="notes-list"></ul>
+            <p id="empty-state">Chua co du lieu.</p>
+        </section>
+    </main>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+    <!-- Link config firebase -->
+    <script type="module" src="./src/js/firebase-config.js"></script>
+    <!-- Link main script -->
+    <script src="./src/js/script.js"></script>
+</body>
+</html>
