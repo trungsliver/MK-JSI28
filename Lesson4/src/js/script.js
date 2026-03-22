@@ -65,3 +65,49 @@ registerForm.addEventListener('submit', async (e) => {
         alert(error.message); // Hiển thị thông báo lỗi cho người dùng
     }
 });
+
+// Xử lý đăng nhập
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+    const email = document.getElementById('loginEmail').value; // Lấy giá trị email từ form
+    const password = document.getElementById('loginPassword').value; // Lấy giá trị mật khẩu từ form
+
+    try {
+        // Đăng nhập thông qua Firebase Authentication
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        console.log('User logged in successfully:', userCredential.user.email);
+        loginForm.reset(); // Reset form sau khi đăng nhập thành công
+    } catch (error) {
+        console.error('Login error:', error);
+        alert(error.message); // Hiển thị thông báo lỗi cho người dùng
+    }
+});
+
+// Xử lý đăng xuất
+logoutBtn.addEventListener('click', async () => {
+    try {
+        await firebase.auth().signOut(); // Đăng xuất khỏi Firebase
+        console.log('User logged out successfully');
+    } catch (error) {
+        console.error('Logout error:', error);
+        alert(error.message); // Hiển thị thông báo lỗi cho người dùng
+    }
+});
+
+// Theo dõi trạng thái đăng nhập của người dùng
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        // Người dùng đã đăng nhập
+        console.log('User is signed in:', user.email);
+        loginFormContainer.style.display = 'none'; // Ẩn form đăng nhập
+        registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
+        userInfo.style.display = 'block'; // Hiển thị thông tin người dùng
+        userEmail.textContent = user.email; // Hiển thị email người dùng
+    } else {
+        // Người dùng đã đăng xuất
+        console.log('User is signed out');
+        loginFormContainer.style.display = 'block'; // Hiển thị form đăng nhập
+        registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
+        userInfo.style.display = 'none'; // Ẩn thông tin người dùng
+    }
+}); 
