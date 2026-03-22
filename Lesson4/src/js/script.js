@@ -27,6 +27,7 @@ const userEmail = document.getElementById('userEmail'); // Phần hiển thị e
 const logoutBtn = document.getElementById('logoutBtn'); // Nút đăng xuất
 const showRegisterLink = document.getElementById('showRegister'); // Link chuyển đến form đăng ký
 const showLoginLink = document.getElementById('showLogin'); // Link chuyển đến form đăng nhập
+const googleLoginBtn = document.getElementById('googleLoginBtn'); // Nút đăng nhập Google
 
 // Xử lý chuyển đổi giữa form đăng nhập và đăng ký
 showRegisterLink.addEventListener('click', (e) => {
@@ -55,6 +56,11 @@ registerForm.addEventListener('submit', async (e) => {
 
     // Nếu muốn nâng cao, tìm kiếm từ khóa regular expression
 
+    if (!auth) {
+        alert('Firebase chưa khởi tạo xong, vui lòng thử lại.');
+        return;
+    }
+
     try {
         // Tạo tài khoản mới thông qua Firebase Authentication
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
@@ -72,9 +78,14 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('loginEmail').value; // Lấy giá trị email từ form
     const password = document.getElementById('loginPassword').value; // Lấy giá trị mật khẩu từ form
 
+    if (!auth) {
+        alert('Firebase chưa khởi tạo xong, vui lòng thử lại.');
+        return;
+    }
+
     try {
         // Đăng nhập thông qua Firebase Authentication
-        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
         console.log('User logged in successfully:', userCredential.user.email);
         loginForm.reset(); // Reset form sau khi đăng nhập thành công
     } catch (error) {
@@ -83,10 +94,33 @@ loginForm.addEventListener('submit', async (e) => {
     }
 });
 
+// Xử lý đăng nhập bằng Google
+googleLoginBtn.addEventListener('click', async () => {
+    if (!auth) {
+        alert('Firebase chưa khởi tạo xong, vui lòng thử lại.');
+        return;
+    }
+
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const userCredential = await auth.signInWithPopup(provider);
+        console.log('Google login success:', userCredential.user.email);
+    } catch (error) {
+        console.error('Google login error:', error);
+        alert(error.message);
+    }
+});
+
 // Xử lý đăng xuất
 logoutBtn.addEventListener('click', async () => {
+    if (!auth) {
+        alert('Firebase chưa khởi tạo xong, vui lòng thử lại.');
+        return;
+    }
+
     try {
-        await firebase.auth().signOut(); // Đăng xuất khỏi Firebase
+        await auth.signOut(); // Đăng xuất khỏi Firebase
         console.log('User logged out successfully');
     } catch (error) {
         console.error('Logout error:', error);
@@ -95,19 +129,21 @@ logoutBtn.addEventListener('click', async () => {
 });
 
 // Theo dõi trạng thái đăng nhập của người dùng
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        // Người dùng đã đăng nhập
-        console.log('User is signed in:', user.email);
-        loginFormContainer.style.display = 'none'; // Ẩn form đăng nhập
-        registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
-        userInfo.style.display = 'block'; // Hiển thị thông tin người dùng
-        userEmail.textContent = user.email; // Hiển thị email người dùng
-    } else {
-        // Người dùng đã đăng xuất
-        console.log('User is signed out');
-        loginFormContainer.style.display = 'block'; // Hiển thị form đăng nhập
-        registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
-        userInfo.style.display = 'none'; // Ẩn thông tin người dùng
-    }
-}); 
+if (auth) {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // Người dùng đã đăng nhập
+            console.log('User is signed in:', user.email);
+            loginFormContainer.style.display = 'none'; // Ẩn form đăng nhập
+            registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
+            userInfo.style.display = 'block'; // Hiển thị thông tin người dùng
+            userEmail.textContent = user.email; // Hiển thị email người dùng
+        } else {
+            // Người dùng đã đăng xuất
+            console.log('User is signed out');
+            loginFormContainer.style.display = 'block'; // Hiển thị form đăng nhập
+            registerFormContainer.style.display = 'none'; // Ẩn form đăng ký
+            userInfo.style.display = 'none'; // Ẩn thông tin người dùng
+        }
+    });
+}
