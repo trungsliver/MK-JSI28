@@ -1,0 +1,9 @@
+Quy tắc đặt tên folder cho CP1: [TenLop]_[HoTen]_CP1
+Ví dụ: JSI28_BuiDucTrung_CP1
+
+Link đề bài: shorturl.at/yVMTy
+
+Các file có trong folder:
+- index.html 
+- src: css, js
+- tracnghiem.txt (ghi các đáp án trắc nghiệm vào file này)
