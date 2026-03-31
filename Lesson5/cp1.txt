@@ -7,3 +7,10 @@ Các file có trong folder:
 - index.html 
 - src: css, js
 - tracnghiem.txt (ghi các đáp án trắc nghiệm vào file này)
+
+Kết quả CP1:
+Minh Hải: 10/10 9/10 = 9.5
+Hoàng Long: 9/10 8/10 = 8.5
+Minh Tâm: 7/10 7/10 = 7
+Phan Anh: 5/10 10/10 = 7.5
+Hữu Nguyên: 6/10 
