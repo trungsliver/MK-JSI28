@@ -1,0 +1,10 @@
+Quy tắc đặt tên folder cho CP2: [TenLop]_[HoTen]_CP2
+Ví dụ: JSI28_BuiDucTrung_CP2
+
+Link đề bài: shorturl.at/Ts3On
+
+Các file có trong folder:
+- index.html 
+- src: css, js
+- tracnghiem.txt (ghi các đáp án trắc nghiệm vào file này)
+
